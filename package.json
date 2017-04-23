@@ -40,6 +40,7 @@
     "mocha": "^3.2.0"
   },
   "dependencies": {
+    "autolinker": "^1.4.3",
     "request": "^2.81.0",
     "twitter": "^1.7.0"
   }

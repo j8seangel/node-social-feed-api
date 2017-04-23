@@ -8,6 +8,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var Autolinker = require('autolinker');
+
 var API = function () {
   function API() {
     _classCallCheck(this, API);
@@ -46,10 +48,17 @@ var API = function () {
           });
         }
       } else if (network === 'twitter') {
+        var parserOptions = {
+          newWindow: true,
+          mention: 'twitter',
+          hashtag: 'twitter'
+        };
         for (var _i = 1; _i < data.length; _i++) {
           items.push({
             id: data[_i].id,
             text: data[_i].text,
+            html: Autolinker.link(data[_i].text, parserOptions),
+            link: 'https://twitter.com/' + data[_i].user.screen_name + '/status/' + data[_i].id_str,
             created_at: new Date(data[_i].created_at).toISOString(),
             media: data[_i].entities.media ? {
               images: {
@@ -59,10 +68,17 @@ var API = function () {
           });
         }
       } else if (network === 'instagram') {
+        var _parserOptions = {
+          newWindow: true,
+          mention: 'instagram',
+          hashtag: 'instagram'
+        };
         for (var _i2 = 1; _i2 < data.length; _i2++) {
           items.push({
             id: data[_i2].id,
             text: data[_i2].caption.text,
+            html: Autolinker.link(data[_i2].caption.text, _parserOptions),
+            link: data[_i2].link,
             created_at: new Date(parseFloat(data[_i2].caption.created_time, 10) * 1000).toISOString(),
             media: {
               images: {

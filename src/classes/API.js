@@ -33,6 +33,7 @@ export default class API {
         items.push({
           id: data[i].id,
           text: data[i].text,
+          link: `https://twitter.com/${data[i].user.screen_name}/status/${data[i].id_str}`,
           created_at: new Date(data[i].created_at).toISOString(),
           media: data[i].entities.media ? {
             images: {
@@ -46,6 +47,7 @@ export default class API {
         items.push({
           id: data[i].id,
           text: data[i].caption.text,
+          link: data[i].link,
           created_at: new Date(parseFloat(data[i].caption.created_time, 10) * 1000).toISOString(),
           media: {
             images: {
