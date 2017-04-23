@@ -1,3 +1,5 @@
+const Autolinker = require('autolinker');
+
 export default class API {
   /**
    * Normalizes data to make it consistent for all social networks
@@ -29,10 +31,16 @@ export default class API {
         });
       }
     } else if (network === 'twitter') {
+      const parserOptions = {
+        newWindow: true,
+        mention: 'twitter',
+        hashtag: 'twitter',
+      };
       for (let i = 1; i < data.length; i++) {
         items.push({
           id: data[i].id,
           text: data[i].text,
+          html: Autolinker.link(data[i].text, parserOptions),
           link: `https://twitter.com/${data[i].user.screen_name}/status/${data[i].id_str}`,
           created_at: new Date(data[i].created_at).toISOString(),
           media: data[i].entities.media ? {
@@ -43,10 +51,16 @@ export default class API {
         });
       }
     } else if (network === 'instagram') {
+      const parserOptions = {
+        newWindow: true,
+        mention: 'instagram',
+        hashtag: 'instagram',
+      };
       for (let i = 1; i < data.length; i++) {
         items.push({
           id: data[i].id,
           text: data[i].caption.text,
+          html: Autolinker.link(data[i].caption.text, parserOptions),
           link: data[i].link,
           created_at: new Date(parseFloat(data[i].caption.created_time, 10) * 1000).toISOString(),
           media: {
